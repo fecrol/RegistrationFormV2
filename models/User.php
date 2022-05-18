@@ -9,6 +9,14 @@ class User implements DataSanitizer {
     private $email;
     private $password;
 
+    public function __construct($forename, $surname, $email, $password) {
+
+        $this->forename = $forename;
+        $this->surname = $surname;
+        $this->email = $email;
+        $this->password = $password;
+    }
+
     public function create($dbConn) {
 
         $query = "INSERT INTO users (forename, surname, email, password, signupDate) VALUES (?, ?, ?, SHA2(?, 256), NOW())";
