@@ -1,7 +1,3 @@
 <Files "db.json">
     Require all denied
 </Files>
-
-<Files "getDbCredentials.php">
-    Require all denied
-</Files>
