@@ -1,6 +1,6 @@
 <?php
 
-include "./DataSanitizer.php";
+include "DataSanitizer.php";
 
 class User implements DataSanitizer {
 
