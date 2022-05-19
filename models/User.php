@@ -22,9 +22,9 @@ class User implements DataSanitizer {
         $query = "INSERT INTO users (forename, surname, email, password, signupDate) VALUES (?, ?, ?, SHA2(?, 256), NOW())";
         $stmt = $dbConn->prepare($query);
 
-        sanitizeData();
+        $this->sanitizeData();
 
-        $stmt->bind_param($this->forename, $this->surname, $this->email, $this->password);
+        $stmt->bind_param("ssss", $this->forename, $this->surname, $this->email, $this->password);
 
         if($stmt->execute()) {
             return true;
