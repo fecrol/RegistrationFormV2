@@ -6,13 +6,26 @@ require("PasswordValidator.php");
 
 class SignupFormValidator implements StringValidator, EmailValidator, PasswordValidator {
 
+    public function validateForm($forename, $surname, $email, $password, $confirmPassword) {
+        /*
+        Validates all the passed form data to determine if form is valid for POST request.
+        */
+
+        $validForename = $this->validateString($forename);
+        $validSurname = $this->validateString($surname);
+        $validEmail = $this->validateEmail($email);
+        $validPassword = $this->validatePassword($password, $confirmPassword);
+
+        return $validForename && $validSurname && $validEmail && $validPassword;
+    }
+    
     public function validateString($string) {
         /*
         Checks that the string contains only letters to prevent special characters and numbers in forename and surname.
         */
 
         $pattern = "/[^a-z]/i";
-        return preg_match($pattern, $string);
+        return preg_match($pattern, $string) ? false : true;
     }
     
     public function validateEmail($email) {
