@@ -1,11 +1,10 @@
-function validateForename(forenameEl) {
+function validateString(element, valIcon) {
     /*
     Sends a POST request to validate the forename field input and update the validation icon accordingly.
     */
 
-    data = {string: forenameEl.value};
+    data = {string: element.value};
     url = "http://localhost/_registrationForm/form-validation/validateString.php";
-    const valIcon = document.getElementById("forename-str");
 
     fetch(url, {
         method: "POST",
@@ -41,8 +40,15 @@ function updateValidationIcon(validationRes, element) {
 document.addEventListener("DOMContentLoaded", () => {
 
     forenameEl = document.getElementById("forename");
+    forenameValIcon = document.getElementById("forename-str");
+
+    surnameEl = document.getElementById("surname");
     
     forenameEl.onkeyup = () => {
-        validateForename(forenameEl);
+        validateString(forenameEl, forenameValIcon);
+    }
+
+    surnameEl.onkeyup = () => {
+        
     }
 })
