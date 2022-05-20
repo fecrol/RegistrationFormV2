@@ -1,6 +1,6 @@
 function validateString(element, valIcon) {
     /*
-    Sends a POST request to validate the forename field input and update the validation icon accordingly.
+    Sends a POST request to validate a text input field which is to contain letters only and update the validation icon accordingly.
     */
 
     data = {string: element.value};
@@ -15,6 +15,28 @@ function validateString(element, valIcon) {
     })
     .then(res => res.json()).then(data => {
         
+        response = data["msg"];
+        updateValidationIcon(response, valIcon);
+    })
+}
+
+function validateEmail(emailEl, valIcon) {
+    /*
+    Sends a POST request to validate a email input field which is to contain a valid email and update the validation icon accordingly.
+    */
+
+    data = {email: emailEl.value};
+    url = "http://localhost/_registrationForm/form-validation/validateEmail.php";
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(res => res.json()).then(data => {
+
         response = data["msg"];
         updateValidationIcon(response, valIcon);
     })
@@ -45,11 +67,18 @@ document.addEventListener("DOMContentLoaded", () => {
     surnameEl = document.getElementById("surname");
     surnameValIcon = document.getElementById("surname-str");
 
+    emailEl = document.getElementById("email");
+    emailValIcon = document.getElementById("valid-email");
+
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
     }
 
     surnameEl.onkeyup = () => {
         validateString(surnameEl, surnameValIcon);    
+    }
+
+    emailEl.onkeyup = () => {
+        validateEmail(emailEl, emailValIcon);
     }
 })
