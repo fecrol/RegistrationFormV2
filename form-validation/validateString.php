@@ -7,13 +7,13 @@ $sfv = new SignupFormValidator();
 $msg;
 $data = json_decode(file_get_contents("php://input"));
 
-if(isset($data->forename)) {
+if(isset($data->string)) {
 
-    $forename = $data->forename;
+    $string = $data->string;
 
-    $forenameIsValid = $sfv->validateString($forename);
+    $stringIsValid = $sfv->validateString($string);
 
-    if($forenameIsValid && strlen($forename) > 0) {
+    if($stringIsValid && strlen($string) > 0) {
         $msg = true;
     }
     else {

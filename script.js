@@ -3,8 +3,8 @@ function validateForename(forenameEl) {
     Sends a POST request to validate the forename field input and update the validation icon accordingly.
     */
 
-    data = {forename: forenameEl.value};
-    url = "http://localhost/_registrationForm/form-validation/validateForename.php";
+    data = {string: forenameEl.value};
+    url = "http://localhost/_registrationForm/form-validation/validateString.php";
     const valIcon = document.getElementById("forename-str");
 
     fetch(url, {
