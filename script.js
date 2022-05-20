@@ -43,12 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
     forenameValIcon = document.getElementById("forename-str");
 
     surnameEl = document.getElementById("surname");
-    
+    surnameValIcon = document.getElementById("surname-str");
+
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
     }
 
     surnameEl.onkeyup = () => {
-        
+        validateString(surnameEl, surnameValIcon);    
     }
 })
