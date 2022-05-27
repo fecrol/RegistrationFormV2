@@ -14,7 +14,7 @@ if(isset($data->pass) && isset($data->confirmPass)) {
 
     $passwordsMatch = $sfv->passwordsMatch($pass, $confirmPass);
 
-    if($passwordsMatch) {
+    if($passwordsMatch && strlen($confirmPass) > 0) {
         $msg = true;
     }
     else {
