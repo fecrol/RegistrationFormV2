@@ -42,6 +42,28 @@ function validateEmail(emailEl, valIcon) {
     })
 }
 
+function validatePasswordsMatch(passEl, confirmPassEl, valIcon) {
+    /*
+    Sends a POST request to validate if the password and confirm password fields match to update the validation icon accordingly.
+    */
+
+    data = {pass: passEl.value, confirmPass: confirmPassEl.value};
+    url = "http://localhost/_registrationForm/form-validation/validatePasswordsMatch.php";
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(res => res.json()).then(data => {
+
+        response = data["msg"];
+        updateValidationIcon(response, valIcon);
+    })
+}
+
 function updateValidationIcon(validationRes, element) {
     /*
     Updates the validation icon based on validation response.
@@ -70,6 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
     emailEl = document.getElementById("email");
     emailValIcon = document.getElementById("valid-email");
 
+    passEl = document.getElementById("pass1");
+
+    confirmPassEl = document.getElementById("pass2");
+    confirmPassValIcon = document.getElementById("pass-match");
+
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
     }
@@ -80,5 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     emailEl.onkeyup = () => {
         validateEmail(emailEl, emailValIcon);
+    }
+
+    passEl.onkeyup = () => {
+        validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
+    }
+    
+    confirmPassEl.onkeyup = () => {
+        validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
     }
 })
