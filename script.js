@@ -1,10 +1,13 @@
+const BASE_URL = "http://localhost/"
+
 function validateString(element, valIcon) {
     /*
     Sends a POST request to validate a text input field which is to contain letters only and update the validation icon accordingly.
     */
 
-    data = {string: element.value};
-    url = "http://localhost/_registrationForm/form-validation/validateString.php";
+    let data = {string: element.value};
+    let requestURL = "_registrationForm/form-validation/validateString.php"
+    let url = BASE_URL + requestURL;
 
     fetch(url, {
         method: "POST",
@@ -15,7 +18,7 @@ function validateString(element, valIcon) {
     })
     .then(res => res.json()).then(data => {
         
-        response = data["msg"];
+        let response = data["msg"];
         updateValidationIcon(response, valIcon);
     })
 }
@@ -25,8 +28,9 @@ function validateEmail(emailEl, valIcon) {
     Sends a POST request to validate a email input field which is to contain a valid email and update the validation icon accordingly.
     */
 
-    data = {email: emailEl.value};
-    url = "http://localhost/_registrationForm/form-validation/validateEmail.php";
+    let data = {email: emailEl.value};
+    let requestURL = "_registrationForm/form-validation/validateEmail.php";
+    let url = BASE_URL + requestURL;
 
     fetch(url, {
         method: "POST",
@@ -37,8 +41,37 @@ function validateEmail(emailEl, valIcon) {
     })
     .then(res => res.json()).then(data => {
 
-        response = data["msg"];
+        let response = data["msg"];
         updateValidationIcon(response, valIcon);
+    })
+}
+
+function validatePassword(passwordEl, valIcons) {
+    /*
+    Sends a POST request to validate if the password field contains a valid password and updates the validation icon accordingly.
+    */
+
+    let data = {password: passwordEl.value};
+    let requestURL = "_registrationForm/form-validation/validatePassword.php";
+    let url = BASE_URL + requestURL;
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(res => res.json()).then(data => {
+        console.log(data["msg"]);
+
+        for(let i=0; i<Object.keys(data["msg"]).length; i++) {
+            
+            let response = data["msg"][Object.keys(data["msg"])[i]];
+            let valIcon = valIcons[i];
+            
+            updateValidationIcon(response, valIcon);
+        }
     })
 }
 
@@ -47,8 +80,9 @@ function validatePasswordsMatch(passEl, confirmPassEl, valIcon) {
     Sends a POST request to validate if the password and confirm password fields match to update the validation icon accordingly.
     */
 
-    data = {pass: passEl.value, confirmPass: confirmPassEl.value};
-    url = "http://localhost/_registrationForm/form-validation/validatePasswordsMatch.php";
+    let data = {pass: passEl.value, confirmPass: confirmPassEl.value};
+    let requestURL = "_registrationForm/form-validation/validatePasswordsMatch.php";
+    let url = BASE_URL + requestURL;
 
     fetch(url, {
         method: "POST",
@@ -59,7 +93,7 @@ function validatePasswordsMatch(passEl, confirmPassEl, valIcon) {
     })
     .then(res => res.json()).then(data => {
 
-        response = data["msg"];
+        let response = data["msg"];
         updateValidationIcon(response, valIcon);
     })
 }
@@ -83,19 +117,32 @@ function updateValidationIcon(validationRes, element) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    forenameEl = document.getElementById("forename");
-    forenameValIcon = document.getElementById("forename-str");
+    let forenameEl = document.getElementById("forename");
+    let forenameValIcon = document.getElementById("forename-str");
 
-    surnameEl = document.getElementById("surname");
-    surnameValIcon = document.getElementById("surname-str");
+    let surnameEl = document.getElementById("surname");
+    let surnameValIcon = document.getElementById("surname-str");
 
-    emailEl = document.getElementById("email");
-    emailValIcon = document.getElementById("valid-email");
+    let emailEl = document.getElementById("email");
+    let emailValIcon = document.getElementById("valid-email");
 
-    passEl = document.getElementById("pass1");
+    let passEl = document.getElementById("pass1");
+    let lengthValIcon = document.getElementById("pass-length");
+    let upperValIcon = document.getElementById("char-upper");
+    let numValIcon = document.getElementById("char-num");
+    let approvedSpecialValIcon = document.getElementById("char-special");
+    let illegalSpecialValIcon = document.getElementById("char-special-illegal");
+    
+    let passValIcons = [
+        lengthValIcon,
+        upperValIcon,
+        numValIcon,
+        approvedSpecialValIcon,
+        illegalSpecialValIcon
+    ];
 
-    confirmPassEl = document.getElementById("pass2");
-    confirmPassValIcon = document.getElementById("pass-match");
+    let confirmPassEl = document.getElementById("pass2");
+    let confirmPassValIcon = document.getElementById("pass-match");
 
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
@@ -108,8 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     emailEl.onkeyup = () => {
         validateEmail(emailEl, emailValIcon);
     }
-
+    
     passEl.onkeyup = () => {
+        validatePassword(passEl, passValIcons);
         validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
     }
     
