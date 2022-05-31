@@ -64,7 +64,7 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         */
 
         $pattern = "/[A-Z]+/";
-        return preg_match($pattern, $password);
+        return preg_match($pattern, $password) ? true : false;
     }
 
     public function passwordHasNum($password) {
@@ -73,13 +73,13 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         */
 
         $pattern = "/\d+/";
-        return preg_match($pattern, $password);
+        return preg_match($pattern, $password) ? true : false;
     }
     
     public function passwordHasApprovedSpecial($password) {
 
         $pattern = "/[!@#~$%^&.-<>_]+/";
-        return preg_match($pattern, $password);
+        return preg_match($pattern, $password) ? true : false;
     }
 
     public function passwordHasIllegalSpecial($password) {
@@ -88,7 +88,7 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         */
 
         $pattern = "/[^0-9a-zA-Z!@#~$%^&.-<>_]+/";
-        return preg_match($pattern, $password);
+        return preg_match($pattern, $password) ? true : false;
     }
 
     public function passwordsMatch($password, $confirmPassword) {
