@@ -17,7 +17,7 @@ if(isset($data->password)) {
     $passHasApprovedSpecial = $sfv->passwordHasApprovedSpecial($password);
     $passHasIllegalSpecial = $sfv->passwordHasIllegalSpecial($password);
 
-    $msg = ["validLength" => $validPassLength, "hasUpper" => $passHasUpper, "hasNum" => $passHasNum, "hasApprovedSpecial" => $passHasApprovedSpecial, "hasIllegalSpecial" => $passHasIllegalSpecial];
+    $msg = ["validLength" => $validPassLength, "hasUpper" => $passHasUpper, "hasNum" => $passHasNum, "hasApprovedSpecial" => $passHasApprovedSpecial, "hasNotIllegalSpecial" => !$passHasIllegalSpecial];
 }
 else {
     $msg = "no data to be processed";
