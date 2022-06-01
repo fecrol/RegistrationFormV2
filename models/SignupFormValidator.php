@@ -78,7 +78,7 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
     
     public function passwordHasApprovedSpecial($password) {
 
-        $pattern = "/[!@#~$%^&.-<>_]+/";
+        $pattern = "/[!@#~$%^&.-]+/";
         return preg_match($pattern, $password) ? true : false;
     }
 
@@ -87,7 +87,7 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         Checks if password contains any not approved special characters to prevent their input.
         */
 
-        $pattern = "/[^0-9a-zA-Z!@#~$%^&.-<>_]+/";
+        $pattern = "/[^0-9a-zA-Z!@#~$%^&.-]+/";
         return preg_match($pattern, $password) ? true : false;
     }
 
