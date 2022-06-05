@@ -24,7 +24,7 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         Checks that the string contains only letters to prevent special characters and numbers in forename and surname.
         */
 
-        $pattern = "/[^a-z]/i";
+        $pattern = "/[^a-z']/i";
         return preg_match($pattern, $string) ? false : true;
     }
     
