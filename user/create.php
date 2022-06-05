@@ -8,8 +8,6 @@ include_once "../models/SignupFormValidator.php";
 $msg;
 $data = json_decode(file_get_contents("php://input"));
 
-// !empty($_POST["forename"]) && !empty($_POST["surname"]) && !empty($_POST["email"]) && !empty($_POST["password"]) && !empty($_POST["confirm-pass"])
-
 $formHasAllData = isset($data->forename) && isset($data->surname) && isset($data->email) && isset($data->password) && isset($data->confirmPass);
 
 if($formHasAllData) {
