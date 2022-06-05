@@ -5,41 +5,46 @@ include_once "../config/Database.php";
 include_once "../models/User.php";
 include_once "../models/SignupFormValidator.php";
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+$msg;
+$data = json_decode(file_get_contents("php://input"));
 
-    if(!empty($_POST["forename"]) && !empty($_POST["surname"]) && !empty($_POST["email"]) && !empty($_POST["password"]) && !empty($_POST["confirm-pass"])) {
+// !empty($_POST["forename"]) && !empty($_POST["surname"]) && !empty($_POST["email"]) && !empty($_POST["password"]) && !empty($_POST["confirm-pass"])
 
-        $sfv = new SignupFormValidator();
+$formHasAllData = isset($data->forename) && isset($data->surname) && isset($data->email) && isset($data->password) && isset($data->confirmPass);
 
-        $forename = $_POST["forename"];
-        $surname = $_POST["surname"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-        $confirmPassword = $_POST["confirm-pass"];
+if($formHasAllData) {
 
-        $formIsValid = $sfv->validateForm($forename, $surname, $email, $password, $confirmPassword);
+    $sfv = new SignupFormValidator();
 
-        if($formIsValid) {
+    $forename = $data->forename;
+    $surname = $data->surname;
+    $email = $data->email;
+    $password = $data->password;
+    $confirmPassword = $data->confirmPass;
 
-            $dbCredentialsFile = "../config/db.json";
-            $dbCredentialsReader = new DbCredentialsReader();
-            $dbCredentials = $dbCredentialsReader->getDbCredentials($dbCredentialsFile);
+    $formIsValid = $sfv->validateForm($forename, $surname, $email, $password, $confirmPassword);
 
-            $database = new Database($dbCredentials);
-            $dbConn = $database->connect();
+    if($formIsValid) {
 
-            $user = new User($forename, $surname, $email, $password);
-            $user->create($dbConn);
+        $dbCredentialsFile = "../config/db.json";
+        $dbCredentialsReader = new DbCredentialsReader();
+        $dbCredentials = $dbCredentialsReader->getDbCredentials($dbCredentialsFile);
 
-            echo json_encode(["msg" => "success"]);
-        }
-        else {
-            echo json_encode(["msg" => "form contains invalid data!"]);
-        }
+        $database = new Database($dbCredentials);
+        $dbConn = $database->connect();
+
+        $user = new User($forename, $surname, $email, $password);
+        $user->create($dbConn);
+
+        echo json_encode(["msg" => "success"]);
     }
     else {
-        echo json_encode(["msg" => "form contains empty field(s)!"]);
+        echo json_encode(["msg" => "fail"]);
     }
 }
+else {
+    echo json_encode(["msg" => "form contains empty field(s)!"]);
+}
+
 
 ?>
