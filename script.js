@@ -114,6 +114,38 @@ function updateValidationIcon(validationRes, element) {
     }
 }
 
+function signup(userData) {
+    /*
+    POST request to handle user signup.
+    */
+
+    let data = userData;
+    let requestURL = "_registrationForm/user/create.php";
+    let url = BASE_URL + requestURL;
+
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(res => res.json()).then(data => {
+        
+        let response = data["msg"];
+
+        if(response === "success") {
+            document.location.replace("http://localhost/_registrationForm/register.html");
+        }
+        else if(response === "fail") {
+            document.location.replace("http://localhost/_registrationForm/register.html");
+        }
+        else {
+            document.location.replace("http://localhost/_registrationForm/register.html");
+        }
+    })
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     let forenameEl = document.getElementById("forename");
@@ -143,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let confirmPassEl = document.getElementById("pass2");
     let confirmPassValIcon = document.getElementById("pass-match");
 
+    let formEl = document.getElementById("signup-form");
+    
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
     }
@@ -163,4 +197,19 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmPassEl.onkeyup = () => {
         validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
     }
+
+    formEl.addEventListener("submit", (event) => {
+
+        event.preventDefault();
+
+        let userData = {
+            forename: forenameEl.value,
+            surname: surnameEl.value,
+            email: emailEl.value,
+            password: passEl.value,
+            confirmPass: confirmPassEl.value
+        }
+
+        signup(userData);
+    })
 })
