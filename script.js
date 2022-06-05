@@ -63,7 +63,6 @@ function validatePassword(passwordEl, valIcons) {
         body: JSON.stringify(data),
     })
     .then(res => res.json()).then(data => {
-        console.log(data["msg"]);
 
         for(let i=0; i<Object.keys(data["msg"]).length; i++) {
             
