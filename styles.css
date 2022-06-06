@@ -91,6 +91,16 @@ body {
     font-weight: normal;
 }
 
+.flash {
+    animation: flash .5s linear 2;
+}
+
+@keyframes flash {
+    50% {
+        opacity: 25%;
+    }
+}
+
 @media (min-width:950px) {
     .form {
         width: 50%;
