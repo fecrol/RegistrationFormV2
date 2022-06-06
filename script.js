@@ -97,23 +97,6 @@ function validatePasswordsMatch(passEl, confirmPassEl, valIcon) {
     })
 }
 
-function updateValidationIcon(validationRes, element) {
-    /*
-    Updates the validation icon based on validation response.
-    */
-
-    if(validationRes) {
-        element.classList.remove("fa-xmark");
-        element.classList.add("fa-check");
-        element.style.color = "#00FF00";
-    }
-    else {
-        element.classList.remove("fa-check");
-        element.classList.add("fa-xmark");
-        element.style.color = "#ee3344";
-    }
-}
-
 function signup(userData) {
     /*
     POST request to handle user signup.
@@ -138,12 +121,54 @@ function signup(userData) {
             document.location.replace("http://localhost/_registrationForm/register.html");
         }
         else if(response === "fail") {
-            document.location.replace("http://localhost/_registrationForm/register.html");
+            pass;
         }
         else {
             document.location.replace("http://localhost/_registrationForm/register.html");
         }
     })
+}
+
+function updateValidationIcon(validationRes, element) {
+    /*
+    Updates the validation icon based on validation response.
+    */
+
+    if(validationRes) {
+        element.classList.remove("fa-xmark");
+        element.classList.add("fa-check");
+        element.style.color = "#00FF00";
+    }
+    else {
+        element.classList.remove("fa-check");
+        element.classList.add("fa-xmark");
+        element.style.color = "#ee3344";
+    }
+}
+
+function flashXicons(icons) {
+
+    let iconClass = "fa-xmark";
+    let flashClass = "flash";
+    
+    for(let i=0; i<icons.length; i++) {
+
+        if(icons[i].classList.contains(iconClass)) {
+            icons[i].classList.add(flashClass);
+        }
+    }
+}
+
+function removeIconFlash(icons) {
+    
+    let flashClass = "flash";
+
+    for(let i=0; i<icons.length; i++) {
+
+        if(icons[i].classList.contains(flashClass)) {
+            icons[i].classList.remove(flashClass);
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -176,6 +201,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let confirmPassValIcon = document.getElementById("pass-match");
 
     let formEl = document.getElementById("signup-form");
+    let submitBtn = document.getElementById("submit");
+
+    let icons = [
+        forenameValIcon,
+        surnameValIcon,
+        emailValIcon,
+        lengthValIcon,
+        upperValIcon,
+        numValIcon,
+        approvedSpecialValIcon,
+        illegalSpecialValIcon,
+        confirmPassValIcon
+    ]
     
     forenameEl.onkeyup = () => {
         validateString(forenameEl, forenameValIcon);
@@ -210,6 +248,9 @@ document.addEventListener("DOMContentLoaded", () => {
             confirmPass: confirmPassEl.value
         }
 
+        removeIconFlash(icons);
         signup(userData);
+        submitBtn.blur();
+        flashXicons(icons);
     })
 })
