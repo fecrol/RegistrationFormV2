@@ -34,6 +34,11 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         return preg_match($pattern, $email);
     }
 
+    public function validateEmailExistance($email, $dbConn) {
+
+        return 0;
+    }
+
     public function validatePassword($password, $confirmPassword) {
 
         $validLength = $this->validatePasswordLength($password);
