@@ -4,7 +4,7 @@ interface EmailValidator {
 
     public function validateEmail($email);
 
-    public function validateEmailExistance($email, $dbConn);
+    public function validateEmailExistence($email, $dbConn);
 }
 
 ?>
