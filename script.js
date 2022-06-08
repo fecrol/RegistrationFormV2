@@ -121,7 +121,7 @@ function signup(userData) {
             document.location.replace("http://localhost/_registrationForm/register.html");
         }
         else if(response === "fail") {
-            pass;
+            
         }
         else {
             document.location.replace("http://localhost/_registrationForm/register.html");
