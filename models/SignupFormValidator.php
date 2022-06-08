@@ -34,9 +34,20 @@ class SignupFormValidator implements StringValidator, EmailValidator, PasswordVa
         return preg_match($pattern, $email);
     }
 
-    public function validateEmailExistance($email, $dbConn) {
+    public function validateEmailExistence($email, $dbConn) {
 
-        return 0;
+        $email = htmlspecialchars(strip_tags($email));
+        
+        $query = "SELECT * FROM users WHERE email='$email'";
+        $stmt = $dbConn->prepare($query);
+
+        $stmt->execute();
+
+        $stmt->store_result();
+        
+        $rows = mysqli_stmt_num_rows($stmt);
+        
+        return $rows > 0 ? true : false;
     }
 
     public function validatePassword($password, $confirmPassword) {
