@@ -12,6 +12,13 @@ $formHasAllData = isset($data->forename) && isset($data->surname) && isset($data
 
 if($formHasAllData) {
 
+    $dbCredentialsFile = "../config/db.json";
+    $dbCredentialsReader = new DbCredentialsReader();
+    $dbCredentials = $dbCredentialsReader->getDbCredentials($dbCredentialsFile);
+
+    $database = new Database($dbCredentials);
+    $dbConn = $database->connect();
+
     $sfv = new SignupFormValidator();
 
     $forename = $data->forename;
@@ -21,28 +28,23 @@ if($formHasAllData) {
     $confirmPassword = $data->confirmPass;
 
     $formIsValid = $sfv->validateForm($forename, $surname, $email, $password, $confirmPassword);
+    $emailRegistered = $sfv->validateEmailExistence($email, $dbConn);
 
-    if($formIsValid) {
-
-        $dbCredentialsFile = "../config/db.json";
-        $dbCredentialsReader = new DbCredentialsReader();
-        $dbCredentials = $dbCredentialsReader->getDbCredentials($dbCredentialsFile);
-
-        $database = new Database($dbCredentials);
-        $dbConn = $database->connect();
+    if($formIsValid && !$emailRegistered) {
 
         $user = new User($forename, $surname, $email, $password);
         $user->create($dbConn);
 
-        echo json_encode(["msg" => "success"]);
+        $msg = "success";
     }
     else {
-        echo json_encode(["msg" => "fail"]);
+        $msg = "fail";
     }
 }
 else {
-    echo json_encode(["msg" => "form contains empty field(s)!"]);
+    $msg = "empty";
 }
 
+echo json_encode(["msg" => $msg]);
 
 ?>
