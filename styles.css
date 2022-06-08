@@ -95,6 +95,18 @@ body {
     animation: flash .5s linear 2;
 }
 
+.success-msg {
+    width: 100%;
+    background: #90ee90;
+    padding: 1rem;
+    border-radius: 2rem;
+    display: none;
+}
+
+.success-msg p {
+    font-size: 0.9rem;
+}
+
 @keyframes flash {
     50% {
         opacity: 25%;
