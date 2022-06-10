@@ -97,7 +97,7 @@ function validatePasswordsMatch(passEl, confirmPassEl, valIcon) {
     })
 }
 
-function signup(userData) {
+function signup(userData, inputEls, valIcons) {
     /*
     POST request to handle user signup.
     */
@@ -118,13 +118,26 @@ function signup(userData) {
         let response = data["msg"];
 
         if(response === "success") {
-            document.location.replace("http://localhost/_registrationForm/register.html");
+            hideEmailError();
+            displaySuccessMsg();
+            resetForm(inputEls, valIcons);
         }
-        else if(response === "fail") {
-            
+
+        if(response === "exists") {
+            hideSuccessMsg();
+            displayEmailError();
         }
-        else {
-            document.location.replace("http://localhost/_registrationForm/register.html");
+        
+        if(response === "fail") {
+            hideEmailError();
+            hideSuccessMsg();
+            flashXicons(valIcons);
+        }
+        
+        if(response === "empty") {
+            hideEmailError();
+            hideSuccessMsg();
+            flashXicons(valIcons);
         }
     })
 }
@@ -147,6 +160,9 @@ function updateValidationIcon(validationRes, element) {
 }
 
 function flashXicons(icons) {
+    /*
+    Adds a flash effect to x icons to notify user form is invalid.
+    */
 
     let iconClass = "fa-xmark";
     let flashClass = "flash";
@@ -160,6 +176,9 @@ function flashXicons(icons) {
 }
 
 function removeIconFlash(icons) {
+    /*
+    Removes the flash class from icons to stop icons from flashing.
+    */
     
     let flashClass = "flash";
 
@@ -169,6 +188,46 @@ function removeIconFlash(icons) {
             icons[i].classList.remove(flashClass);
         }
     }
+}
+
+function resetForm(inputEls, valIcons) {
+    /*
+    Resets the signup form when called.
+    */
+
+    const response = false;
+    
+    for(let i=0; i<inputEls.length; i++) {
+        inputEls[i].value = "";
+    }
+
+    for(let i=0; i<valIcons.length; i++) {
+        updateValidationIcon(response, valIcons[i]);
+    }
+}
+
+function displaySuccessMsg() {
+
+    const msgDiv = document.getElementById("success-msg");
+    msgDiv.style.display = "block";
+}
+
+function hideSuccessMsg() {
+
+    const msgDiv = document.getElementById("success-msg");
+    msgDiv.style.display = "none";
+}
+
+function displayEmailError() {
+    
+    const msgDiv = document.getElementById("email-exists");
+    msgDiv.style.display = "block";
+}
+
+function hideEmailError() {
+
+    const msgDiv = document.getElementById("email-exists");
+    msgDiv.style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -203,6 +262,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let formEl = document.getElementById("signup-form");
     let submitBtn = document.getElementById("submit");
 
+    let inputElements = [
+        forenameEl,
+        surnameEl,
+        emailEl,
+        passEl,
+        confirmPassEl
+    ]
+    
     let icons = [
         forenameValIcon,
         surnameValIcon,
@@ -249,8 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         removeIconFlash(icons);
-        signup(userData);
+        signup(userData, inputElements, icons);
         submitBtn.blur();
-        flashXicons(icons);
     })
 })
