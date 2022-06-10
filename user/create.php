@@ -37,8 +37,14 @@ if($formHasAllData) {
 
         $msg = "success";
     }
-    else {
+    
+
+    if(!$formIsValid) {
         $msg = "fail";
+    }
+
+    if($emailRegistered) {
+        $msg = "exists";
     }
 }
 else {
