@@ -107,6 +107,19 @@ body {
     font-size: 0.9rem;
 }
 
+.email-exists-error {
+    width: 100%;
+    background: #ee3344;
+    padding: 1rem;
+    border-radius: 2rem;
+    display: none;
+}
+
+.email-exists-error p {
+    font-size: 0.9rem;
+    color: #eeeeee;
+}
+
 @keyframes flash {
     50% {
         opacity: 25%;
