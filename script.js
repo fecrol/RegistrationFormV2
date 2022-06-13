@@ -286,11 +286,23 @@ document.addEventListener("DOMContentLoaded", () => {
         validateString(forenameEl, forenameValIcon);
     }
 
+    forenameEl.onchange = () => {
+        validateString(forenameEl, forenameValIcon);
+    }
+
     surnameEl.onkeyup = () => {
         validateString(surnameEl, surnameValIcon);    
     }
 
+    surnameEl.onchange = () => {
+        validateString(surnameEl, surnameValIcon);    
+    }
+
     emailEl.onkeyup = () => {
+        validateEmail(emailEl, emailValIcon);
+    }
+
+    emailEl.onchange = () => {
         validateEmail(emailEl, emailValIcon);
     }
     
@@ -298,8 +310,17 @@ document.addEventListener("DOMContentLoaded", () => {
         validatePassword(passEl, passValIcons);
         validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
     }
+
+    passEl.onchange = () => {
+        validatePassword(passEl, passValIcons);
+        validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
+    }
     
     confirmPassEl.onkeyup = () => {
+        validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
+    }
+
+    confirmPassEl.onchange = () => {
         validatePasswordsMatch(passEl, confirmPassEl, confirmPassValIcon);
     }
 
